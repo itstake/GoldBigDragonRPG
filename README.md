@@ -1,6 +1,13 @@
-# GoldBigDragonRPG
-[MineCraftPlugin] GoldBigDragon RPG is my First RPG Plugin! [KOR]
+# GoldBigDragonRPG_Edited by ITSTAKE
+http://github.com/goldbigdragon/goldbigdragonrpg
 
---Patch Note--
-2015-11-08
-First GitHub Uploaded!
+
+
+# What Changed?
+
+- IntelliJ IDEA Convert
+- Library included
+- More optimize
+- More functionality
+- More bug fix
+- And more..!
