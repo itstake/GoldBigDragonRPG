@@ -5,6 +5,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 
@@ -22,6 +23,9 @@ public class BlockBreak
 		String[] Area = A.getAreaName(event.getBlock());
 		if(Area != null)
 		{
+			YamlController GUI_YC = GBD.GoldBigDragon_Advanced.Main.Main.GUI_YC;
+			YamlManager AreaConfig =GUI_YC.getNewConfig("Area/AreaList.yml");
+			
 			if(A.getAreaOption(Area[0], (char) 1) == false && event.getPlayer().isOp() == false)
 			{
 				event.setCancelled(true);
@@ -29,10 +33,23 @@ public class BlockBreak
 				event.getPlayer().sendMessage(ChatColor.RED + "[SYSTEM] : " + ChatColor.YELLOW + Area[1] + ChatColor.RED + " 지역 에서는 블록 채집이 불가능합니다!");
 				return;
 			}
+			if(AreaConfig.getInt(Area[0]+".RegenBlock")!=0)
+			{
+				Long UTC = (AreaConfig.getInt(Area[0]+".RegenBlock")*1000)+GBD.GoldBigDragon_Advanced.ServerTick.ServerTickMain.nowUTC+new GBD.GoldBigDragon_Advanced.Util.Number().RandomNum(1, 1000);
+				GBD.GoldBigDragon_Advanced.ServerTick.ServerTickScheduleObject STSO = new GBD.GoldBigDragon_Advanced.ServerTick.ServerTickScheduleObject(UTC, "A_RB");
+				STSO.setMaxCount(-1);
+				Block block =event.getBlock();
+				STSO.setString((byte)1, block.getWorld().getName());//목적지 월드 이름 저장
+				STSO.setInt((byte)0, block.getX());//블록X 위치저장
+				STSO.setInt((byte)1, block.getY());//블록Y 위치저장
+				STSO.setInt((byte)2, block.getZ());//블록Z 위치저장
+				STSO.setInt((byte)3, block.getTypeId());//블록 ID저장
+				STSO.setInt((byte)4, block.getData());//블록 DATA 저장
+				
+				GBD.GoldBigDragon_Advanced.ServerTick.ServerTickMain.Schedule.put(UTC, STSO);
+			}
 			if(player.getGameMode() != GameMode.CREATIVE)
 			{
-				YamlController GUI_YC = GBD.GoldBigDragon_Advanced.Main.Main.GUI_YC;
-				YamlManager AreaConfig =GUI_YC.getNewConfig("Area/AreaList.yml");
 				String BlockData = event.getBlock().getTypeId()+":"+event.getBlock().getData();
 				if(AreaConfig.contains(Area[0]+".Mining."+BlockData) == true)
 				{
@@ -48,19 +65,36 @@ public class BlockBreak
 				}
 			}
 		}
-		
 		Quest(event, player);
-		new GBD.GoldBigDragon_Advanced.Event.Damage().decreaseDurabilityWeapon(player);
-		if(player.getGameMode()!=GameMode.CREATIVE)
-			EXPadd(event);
-		LuckyBonus(event);
-
 		if(event.getBlock().getLocation().getWorld().getName().equalsIgnoreCase("Dungeon")==true
 				&&player.isOp()==false)
 		{
 			event.setCancelled(true);
 			return;
 		}
+		
+		int id = event.getBlock().getTypeId();
+		if((id >= 14&&id <= 17)||id==21||id==56||id==129||id==73||id==153)
+		{
+			YamlController GUI_YC = GBD.GoldBigDragon_Advanced.Main.Main.GUI_YC;
+			YamlManager EXPexceptionBlockList =GUI_YC.getNewConfig("EXPexceptionBlock.yml");
+			Location loc = event.getBlock().getLocation();
+			String Location = ((int)loc.getX()+"_"+(int)loc.getY()+"_"+(int)loc.getZ());
+			if(EXPexceptionBlockList.contains(loc.getWorld().getName()+"."+id+"."+Location))
+			{
+				EXPexceptionBlockList.removeKey(loc.getWorld().getName()+"."+id+"."+Location);
+				EXPexceptionBlockList.saveConfig();
+			}
+			else
+			{
+				if(player.getGameMode()!=GameMode.CREATIVE)
+				{
+					EXPadd(event);
+					LuckyBonus(event);
+				}
+			}
+		}
+		new GBD.GoldBigDragon_Advanced.Event.Damage().decreaseDurabilityWeapon(player);
 		return;
 	}
 
@@ -78,6 +112,7 @@ public class BlockBreak
 
 		if(Main.PartyJoiner.containsKey(player)==false)
 		{
+			if(PlayerQuestList.contains("Started"))
 			if(PlayerQuestList.getConfigurationSection("Started").getKeys(false).toArray().length >= 1)
 			{
 				Object[] a = PlayerQuestList.getConfigurationSection("Started").getKeys(false).toArray();

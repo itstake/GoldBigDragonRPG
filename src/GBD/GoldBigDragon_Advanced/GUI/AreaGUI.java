@@ -112,6 +112,11 @@ public class AreaGUI extends GUIutil
 		else
 			Stack2(ChatColor.WHITE + ""+ChatColor.BOLD+"[배경음 재생]", 84,0,1,Arrays.asList("",ChatColor.GREEN + ""+ChatColor.BOLD+ "[   재생   ]",""), 16, inv);
 
+		if(AreaConfig.getInt(AreaName+".RegenBlock") == 0)
+			Stack2(ChatColor.WHITE + ""+ChatColor.BOLD+"[블록 리젠]", 166,0,1,Arrays.asList("",ChatColor.RED + ""+ChatColor.BOLD+"[   중지   ]",""), 28, inv);
+		else
+			Stack2(ChatColor.WHITE + ""+ChatColor.BOLD+"[블록 리젠]", 103,0,1,Arrays.asList("",ChatColor.GREEN + ""+ChatColor.BOLD+ "[   활성   ]","",ChatColor.DARK_AQUA+""+AreaConfig.getInt(AreaName+".RegenBlock")+" 초 마다 리젠","",ChatColor.RED+"[플레이어가 직접 캔 블록만 리젠 됩니다]",""), 28, inv);
+
 		Stack2(ChatColor.WHITE + ""+ChatColor.BOLD+"[특산품 설정]", 15,0,1,Arrays.asList("",ChatColor.GRAY + "현재 영역에서 블록을 캐면",ChatColor.GRAY+"지정된 아이템이 나오게",ChatColor.GRAY+"설정 합니다.","",ChatColor.YELLOW + "[클릭시 특산품 설정]"), 19, inv);
 		Stack2(ChatColor.WHITE + ""+ChatColor.BOLD+"[낚시 아이템]", 346,0,1,Arrays.asList("",ChatColor.GRAY + "현재 영역에서 낚시를 하여",ChatColor.GRAY+"얻을 수 있는 물건을 확률별로",ChatColor.GRAY+"설정합니다.",ChatColor.YELLOW + "[클릭시 낚시 아이템 설정]"), 20, inv);
 		Stack2(ChatColor.WHITE + ""+ChatColor.BOLD+"[우선순위 변경]", 384,0,1,Arrays.asList("",ChatColor.GRAY+"영역끼리 서로 겹칠 경우",ChatColor.GRAY+"우선 순위가 더 높은 영역이",ChatColor.GRAY+"적용됩니다.",ChatColor.GRAY+"이 속성을 이용하여 마을을 만들고,",ChatColor.GRAY+"마을 내부의 각종 상점 및",ChatColor.GRAY+"구역을 나눌 수 있습니다.",ChatColor.BLUE+"[   현재 우선 순위   ]",ChatColor.WHITE +" "+AreaConfig.getInt(AreaName+".Priority"),"",ChatColor.YELLOW + "[클릭시 우선 순위 변경]"), 21, inv);
@@ -377,15 +382,15 @@ public class AreaGUI extends GUIutil
 				Lore = Lore+ChatColor.RED+""+ChatColor.BOLD+" 생명력 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".HP")+"%enter%";
 				Lore = Lore+ChatColor.AQUA+""+ChatColor.BOLD+" 경험치 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".EXP")+"%enter%";
 				Lore = Lore+ChatColor.YELLOW+""+ChatColor.BOLD+" 드랍 금액 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".MIN_Money")+" ~ "+MobList.getInt(MonsterName+".MAX_Money")+"%enter%";
-				Lore = Lore+ChatColor.RED+""+ChatColor.BOLD+" 체력 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".STR")
+				Lore = Lore+ChatColor.RED+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.STR+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".STR")
 				+ChatColor.GRAY+ " [물공 : " + d.CombatMinDamageGet(0, MobList.getInt(MonsterName+".STR")) + " ~ " + d.CombatMaxDamageGet(0, MobList.getInt(MonsterName+".STR")) + "]%enter%";
-				Lore = Lore+ChatColor.GREEN+""+ChatColor.BOLD+" 솜씨 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".DEX")
+				Lore = Lore+ChatColor.GREEN+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.DEX+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".DEX")
 				+ChatColor.GRAY+ " [활공 : " + d.RangeMinDamageGet(0, MobList.getInt(MonsterName+".DEX")) + " ~ " + d.RangeMaxDamageGet(0, MobList.getInt(MonsterName+".DEX")) + "]%enter%";
-				Lore = Lore+ChatColor.DARK_AQUA+""+ChatColor.BOLD+" 지력 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".INT")
+				Lore = Lore+ChatColor.DARK_AQUA+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.INT+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".INT")
 				+ChatColor.GRAY+ " [폭공 : " + (MobList.getInt(MonsterName+".INT")/4)+ " ~ "+(int)(MobList.getInt(MonsterName+".INT")/2.5)+"]%enter%";
-				Lore = Lore+ChatColor.GRAY+""+ChatColor.BOLD+" 의지 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".WILL")
+				Lore = Lore+ChatColor.GRAY+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.WILL+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".WILL")
 				+ChatColor.GRAY+ " [크리 : " + d.getCritical(MobList.getInt(MonsterName+".LUK"), (int)MobList.getInt(MonsterName+".WILL")) + " %]%enter%";
-				Lore = Lore+ChatColor.YELLOW+""+ChatColor.BOLD+" 행운 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".LUK")
+				Lore = Lore+ChatColor.YELLOW+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.LUK+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".LUK")
 				+ChatColor.GRAY+ " [크리 : " + d.getCritical(MobList.getInt(MonsterName+".LUK"), (int)MobList.getInt(MonsterName+".WILL")) + " %]%enter%";
 				Lore = Lore+ChatColor.GRAY+""+ChatColor.BOLD+" 방어 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".DEF")+"%enter%";
 				Lore = Lore+ChatColor.AQUA+""+ChatColor.BOLD+" 보호 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".Protect")+"%enter%";
@@ -469,15 +474,15 @@ public class AreaGUI extends GUIutil
 			Lore = Lore+ChatColor.RED+""+ChatColor.BOLD+" 생명력 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".HP")+"%enter%";
 			Lore = Lore+ChatColor.AQUA+""+ChatColor.BOLD+" 경험치 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".EXP")+"%enter%";
 			Lore = Lore+ChatColor.YELLOW+""+ChatColor.BOLD+" 드랍 금액 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".MIN_Money")+" ~ "+MobList.getInt(MonsterName+".MAX_Money")+"%enter%";
-			Lore = Lore+ChatColor.RED+""+ChatColor.BOLD+" 체력 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".STR")
+			Lore = Lore+ChatColor.RED+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.STR+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".STR")
 			+ChatColor.GRAY+ " [물공 : " + d.CombatMinDamageGet(0, MobList.getInt(MonsterName+".STR")) + " ~ " + d.CombatMaxDamageGet(0, MobList.getInt(MonsterName+".STR")) + "]%enter%";
-			Lore = Lore+ChatColor.GREEN+""+ChatColor.BOLD+" 솜씨 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".DEX")
+			Lore = Lore+ChatColor.GREEN+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.DEX+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".DEX")
 			+ChatColor.GRAY+ " [활공 : " + d.RangeMinDamageGet(0, MobList.getInt(MonsterName+".DEX")) + " ~ " + d.RangeMaxDamageGet(0, MobList.getInt(MonsterName+".DEX")) + "]%enter%";
-			Lore = Lore+ChatColor.DARK_AQUA+""+ChatColor.BOLD+" 지력 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".INT")
+			Lore = Lore+ChatColor.DARK_AQUA+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.INT+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".INT")
 			+ChatColor.GRAY+ " [폭공 : " + (MobList.getInt(MonsterName+".INT")/4)+ " ~ "+(int)(MobList.getInt(MonsterName+".INT")/2.5)+"]%enter%";
-			Lore = Lore+ChatColor.GRAY+""+ChatColor.BOLD+" 의지 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".WILL")
+			Lore = Lore+ChatColor.GRAY+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.WILL+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".WILL")
 			+ChatColor.GRAY+ " [크리 : " + d.getCritical(MobList.getInt(MonsterName+".LUK"), (int)MobList.getInt(MonsterName+".WILL")) + " %]%enter%";
-			Lore = Lore+ChatColor.YELLOW+""+ChatColor.BOLD+" 행운 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".LUK")
+			Lore = Lore+ChatColor.YELLOW+""+ChatColor.BOLD+" "+GBD.GoldBigDragon_Advanced.Main.ServerOption.LUK+" : "+ChatColor.WHITE+MobList.getInt(MonsterName+".LUK")
 			+ChatColor.GRAY+ " [크리 : " + d.getCritical(MobList.getInt(MonsterName+".LUK"), (int)MobList.getInt(MonsterName+".WILL")) + " %]%enter%";
 			Lore = Lore+ChatColor.GRAY+""+ChatColor.BOLD+" 방어 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".DEF")+"%enter%";
 			Lore = Lore+ChatColor.AQUA+""+ChatColor.BOLD+" 보호 : "+ChatColor.WHITE+MobList.getInt(MonsterName+".Protect")+"%enter%";
@@ -759,6 +764,26 @@ public class AreaGUI extends GUIutil
 			AreaConfig.set(AreaName+".SpawnLocation.Pitch", player.getLocation().getPitch());
 			AreaConfig.set(AreaName+".SpawnLocation.Yaw", player.getLocation().getYaw());
 			break;
+
+		case 28://블록 리젠
+			if(AreaConfig.getInt(AreaName+".RegenBlock") == 0)
+			{
+				player.closeInventory();
+				AreaConfig.set(AreaName+".RegenBlock", 1);
+				AreaConfig.saveConfig();
+				Main.UserData.get(player).setType("Area");
+				Main.UserData.get(player).setString((byte)2, "ARR");
+				Main.UserData.get(player).setString((byte)3, AreaName);
+				player.sendMessage(ChatColor.GREEN + "[영역] : "+ChatColor.YELLOW+AreaName+ChatColor.GREEN+" 영역의 블록 리젠 속도를 설정하세요!");
+				player.sendMessage(ChatColor.GRAY + "(최소 1초 ~ 최대 3600초(1시간))");
+			}
+			else
+			{
+				AreaConfig.set(AreaName+".RegenBlock", 0);
+				AreaConfig.saveConfig();
+				AreaGUI_Main(player, AreaName);
+			}
+			return;
 		case 40://영역 이동
 			player.closeInventory();
 			player.teleport(new Location(Bukkit.getWorld(AreaConfig.getString(AreaName+".World")),AreaConfig.getInt(AreaName+".SpawnLocation.X"), AreaConfig.getInt(AreaName+".SpawnLocation.Y"),AreaConfig.getInt(AreaName+".SpawnLocation.Z"),AreaConfig.getInt(AreaName+".SpawnLocation.Yaw"),AreaConfig.getInt(AreaName+".SpawnLocation.Pitch")));
